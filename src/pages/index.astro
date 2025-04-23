@@ -1,0 +1,85 @@
+---
+import "../styles/global.css"
+---
+
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Trabalho Matemática</title>
+	</head>
+	<body>
+		<main class="flex flex-1 w-screen h-screen flex-col justify-start items-center pt-24">
+			<div class="flex flex-col items-center w-screen">
+				<h1 class="text-2xl font-bold">Calculadora de Brilho</h1>
+				<h2 class="text-lg font-semibold">Modifique o brilho de uma cor usando matemática!</h2>
+			</div>
+			<div class="flex flex-row items-center justify-around w-full">
+				<div class="flex flex-col items-center justify-center gap-3">
+					<h3 class="text-xl font-medium uppercase">Cor Escolhida</h3>
+					<div id="color" class="w-48 h-48 rounded-full border-zinc-950 border-2" />
+				</div>
+				<form id="colorForm" class="flex flex-col items-center justify-center gap-12">
+					<div class="flex flex-row items-center justify-around gap-6">
+						<label for="red" class="text-lg font-bold">Vermelho:</label>
+						<input name="red" id="red" type="number" min="0" max="255" value="200" placeholder="R" class="w-20 bg-slate-400 rounded-full p-3" />
+						<label for="red" class="text-lg font-bold">Verde:</label>
+						<input name="green" id="green" type="number" min="0" max="255" value="250" placeholder="G" class="w-20 bg-slate-400 rounded-full p-3" />
+						<label for="red" class="text-lg font-bold">Azul:</label>
+						<input name="blue" id="blue" type="number" min="0" max="255" value="155" placeholder="B" class="w-20 bg-slate-400 rounded-full p-3" />
+					</div>
+					<div class="flex flex-row items-center gap-8">
+						<input class="bg-slate-300 rounded p-2 uppercase font-semibold hover:scale-110 transition-transform duration-300" type="submit" value="Alterar Brilho" />
+						<input id="scalar" type="number" min="1" value="2" class="w-20 bg-slate-400 rounded-full p-3" />
+					</div>
+				</form>
+				<div class="flex flex-col items-center justify-center gap-3">
+					<h3 class="text-xl font-medium uppercase">Cor Clara</h3>
+					<div id="colorBright" class="w-48 h-48 rounded-full border-zinc-950 border-2" />
+				</div>
+			</div>
+		</main>
+		<script>
+			function multiplyMatrix(matrix, multiplier) {
+				return matrix.map(elem => Math.min(255, elem * multiplier));
+			}
+
+			function changeColor(rgb, target) {
+				const [red, green, blue] = rgb;
+
+				document.getElementById(target).style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+			}
+
+ 			document.addEventListener('DOMContentLoaded', () => {
+    			const colorForm = document.getElementById('colorForm');
+    			const redInput = document.getElementById('red');
+    			const greenInput = document.getElementById('green');
+    			const blueInput = document.getElementById('blue');
+				const scalarInput = document.getElementById('scalar');
+
+				const red = redInput.value;
+      			const green = greenInput.value;
+      			const blue = blueInput.value;
+
+				changeColor([red, green, blue], "color");
+
+    			colorForm.addEventListener('submit', (event) => {
+      				event.preventDefault();
+
+      				const red = redInput.value;
+      				const green = greenInput.value;
+      				const blue = blueInput.value;
+					
+					const scalar = scalarInput.value;
+
+					const newColor = multiplyMatrix([red, green, blue], scalar);
+
+					changeColor([red, green, blue], "color");
+					changeColor(newColor, "colorBright");
+    			});
+  			});
+		</script>
+	</body>
+</html>
