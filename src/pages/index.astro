@@ -32,7 +32,7 @@ import "../styles/global.css"
 					</div>
 					<div class="flex flex-row items-center gap-8">
 						<input class="bg-slate-300 rounded p-2 uppercase font-semibold hover:scale-110 transition-transform duration-300" type="submit" value="Alterar Brilho" />
-						<input id="scalar" type="number" min="1" value="2" class="w-20 bg-slate-400 rounded-full p-3" />
+						<input id="scalar" type="number" min="1" value="2" step="0.01" lang="pt-BR" class="w-20 bg-slate-400 rounded-full p-3" />
 					</div>
 				</form>
 				<div class="flex flex-col items-center justify-center gap-3">
@@ -42,14 +42,14 @@ import "../styles/global.css"
 			</div>
 		</main>
 		<script>
-			function multiplyMatrix(matrix, multiplier) {
+			function multiplyMatrix(matrix: number[], multiplier: number) {
 				return matrix.map(elem => Math.min(255, elem * multiplier));
 			}
 
-			function changeColor(rgb, target) {
+			function changeColor(rgb: number[], target: string) {
 				const [red, green, blue] = rgb;
 
-				document.getElementById(target).style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+				document.getElementById(target)!.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
 			}
 
  			document.addEventListener('DOMContentLoaded', () => {
@@ -59,20 +59,20 @@ import "../styles/global.css"
     			const blueInput = document.getElementById('blue');
 				const scalarInput = document.getElementById('scalar');
 
-				const red = redInput.value;
-      			const green = greenInput.value;
-      			const blue = blueInput.value;
+				const red = redInput!.value;
+      			const green = greenInput!.value;
+      			const blue = blueInput!.value;
 
 				changeColor([red, green, blue], "color");
 
-    			colorForm.addEventListener('submit', (event) => {
+    			colorForm!.addEventListener('submit', (event) => {
       				event.preventDefault();
 
-      				const red = redInput.value;
-      				const green = greenInput.value;
-      				const blue = blueInput.value;
+      				const red = redInput!.value;
+      				const green = greenInput!.value;
+      				const blue = blueInput!.value;
 					
-					const scalar = scalarInput.value;
+					const scalar = scalarInput!.value;
 
 					const newColor = multiplyMatrix([red, green, blue], scalar);
 
